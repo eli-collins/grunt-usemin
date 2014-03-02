@@ -25,8 +25,15 @@ describe('Uglifyjs config write', function () {
     assert.equal(uglifyjsConfig.name, 'uglify');
   });
 
+  function resolveInFile(fname) {
+    // jshint -W040
+    return path.join(this.inDir, fname);
+    // FIXME: requires jshint 2.3: // jshint +W040
+  }
+
   it('should use the input files correctly', function () {
-    var ctx = { inDir: 'zzz', inFiles: ['foo.js', 'bar.js', 'baz.js'], outDir: 'tmp/uglifyjs', outFiles: []};
+    var ctx = { inDir: 'zzz', inFiles: ['foo.js', 'bar.js', 'baz.js'], outDir: 'tmp/uglifyjs', outFiles: [],
+                resolveInFile: resolveInFile };
     var cfg = uglifyjsConfig.createConfig( ctx, block );
     assert.ok(cfg.files);
     assert.equal(cfg.files.length, 3);
@@ -44,7 +51,8 @@ describe('Uglifyjs config write', function () {
   });
 
   it('should use the destination file if it is the last step of the pipe.', function () {
-    var ctx = { inDir: 'zzz', inFiles: ['foo.js', 'bar.js', 'baz.js'], outDir: 'dist', outFiles: [], last: true};
+    var ctx = { inDir: 'zzz', inFiles: ['foo.js', 'bar.js', 'baz.js'], outDir: 'dist', outFiles: [], last: true,
+                resolveInFile: resolveInFile };
     var cfg = uglifyjsConfig.createConfig( ctx, block );
     assert.ok(cfg.files);
     assert.equal(cfg.files.length, 1);
