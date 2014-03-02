@@ -150,7 +150,7 @@ module.exports = function (grunt) {
 
     var flow = getFlowFromConfig(grunt.config('useminPrepare'), this.target);
 
-    var c = new ConfigWriter( flow, {root: root, dest: dest, staging: staging} );
+    var c = new ConfigWriter( flow, {root: root, dest: dest, staging: staging}, options);
 
     var cfgNames = [];
     c.stepWriters().forEach(function(i) { cfgNames.push(i.name);});
