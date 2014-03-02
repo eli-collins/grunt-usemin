@@ -182,6 +182,14 @@ For example:
 ```
 The given steps or post-processors may be specified as strings (for the default steps and post-processors), or as an object (for the user-defined ones).
 
+### warnMissing
+
+Type: 'boolean'
+Default: `nil`
+
+Whether usemin should issue a warning when it can't find one of the sources
+referenced in a block. For backwards compatibility, this is off by default.
+
 #### User-defined steps and post-processors
 
 User-defined steps and post-processors must have 2 attributes:
