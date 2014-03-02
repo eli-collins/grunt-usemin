@@ -190,6 +190,59 @@ Default: `nil`
 Whether usemin should issue a warning when it can't find one of the sources
 referenced in a block. For backwards compatibility, this is off by default.
 
+### resolveSource
+
+Type: 'function'
+Default: `nil`
+
+This is an optional hook allowing applications to override how source urls
+are resolved to filesystem paths. This function is called with the signature
+`resolveSource(sourceUrl, fileDir, fileName, blockTarget, searchPath)`. It should
+return the path to the source file, `null` to indicate the default resolution
+rules should be used, or `false` to indicate the file cannot be resolved.
+
+`sourceUrl` is the source reference being resolved, `fileDir` and `fileName`
+are the directory and name of the file the reference was found in,
+`blockTarget` is the target path for the block the reference occurred within,
+and `searchPath` is an array of the directories that would be searched by default.
+
+For example:
+
+* To override a specific URL prefix, and use the default behavior for all others:
+
+```js
+'useminPrepare', {
+    options: {
+        resolveSource: function (sourceUrl, fileDir, fileName, blockTarget, searchPath) {
+            var fs = require('fs'), path = require('path');
+            var m = sourceUrl.match(/^\/alt-static-url\/(.*)/);
+            if(m){
+                var source = path.join("alt-static-location", m[1]);
+                if(fs.exists(source)) { return source; }
+            }
+            return null;
+        }
+    }
+}
+```
+
+* To replicate the default behavior:
+
+```js
+'useminPrepare', {
+    options: {
+        resolveSource: function (sourceUrl, fileDir, fileName, blockTarget, searchPath) {
+            var fs = require('fs'), path = require('path');
+            for (var i=0; i< searchPath.length; ++i) {
+              var source = path.join(searchPath[i], fname);
+              if (fs.exists(source)) { return source; }
+            }
+            return false;
+        }
+    }
+}
+```
+
 #### User-defined steps and post-processors
 
 User-defined steps and post-processors must have 2 attributes:
