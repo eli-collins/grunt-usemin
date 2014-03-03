@@ -1,4 +1,6 @@
 'use strict';
+var fs = require('fs');
+var path = require('path');
 var assert = require('assert');
 var helpers = require('./helpers');
 var Flow = require('../lib/flow.js');
@@ -46,6 +48,18 @@ describe('ConfigWriter', function () {
       });
 
       assert.deepEqual(config, expected);
+    });
+
+    it('should detect missing sources when warnMissing=true', function (){
+      var flow = new Flow({'steps': {'js': ['concat', 'uglifyjs']}});
+      var blocks = helpers.blocks();
+      blocks[0].src = ['foo.js'];
+      var file = helpers.createFile('foo', 'warn-missing', blocks);
+      var c = new ConfigWriter( flow, {input: 'warn-missing', dest: 'dist', staging: '.tmp'}, {warnMissing: true});
+      assert.throws(function () { c.process(file) }, /can't resolve source reference "foo.js"/);
+      fs.mkdir('warn-missing');
+      fs.writeFileSync(path.join('warn-missing', 'foo.js'), 'var a=1;');
+      c.process(file);
     });
 
     it('should have a configurable destination directory', function() {

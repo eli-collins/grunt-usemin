@@ -218,7 +218,7 @@ For example:
             var m = sourceUrl.match(/^\/alt-static-url\/(.*)/);
             if(m){
                 var source = path.join("alt-static-location", m[1]);
-                if(fs.exists(source)) { return source; }
+                if(fs.existsSync(source)) { return source; }
             }
             return null;
         }
@@ -235,7 +235,7 @@ For example:
             var fs = require('fs'), path = require('path');
             for (var i=0; i< searchPath.length; ++i) {
               var source = path.join(searchPath[i], fname);
-              if (fs.exists(source)) { return source; }
+              if (fs.existsSync(source)) { return source; }
             }
             return false;
         }
