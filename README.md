@@ -100,7 +100,7 @@ By default, it will consider the directory where the looked-at file is located a
 If you need to change the 'root' dir, use the `root` option (see bellow).
 
 ```js
-'useminPrepare': {
+useminPrepare: {
   html: 'index.html'
 }
 ```
@@ -154,7 +154,7 @@ For example:
 * to change the `js` `steps` and `post` for the target `html`:
 
 ```js
-'useminPrepare', {
+useminPrepare, {
       html: 'index.html',
       options: {
         flow: {
@@ -170,7 +170,7 @@ For example:
 * to change the `js` `steps` and `post` for all targets:
 
 ```js
-'useminPrepare', {
+useminPrepare, {
       html: 'index.html',
       options: {
         flow: {
@@ -364,7 +364,7 @@ usemin: {
 Type: 'Object'
 Default: Empty
 
-Allows for user defined pattern to replace reference to files. For example, let's suppose that you want for some reason replace
+Allows for user defined pattern to replace reference to files. For example, let's suppose that you want to replace
 all references to `'image.png'` in your Javascript files by the revved version of `image.png` found bellow the directory `images`.
 By specifying something along the lines of:
 
@@ -482,15 +482,15 @@ This will, on the fly, generate the following configuration:
 {
   concat:
   {
-    '.tmp/concat/assets/js/scripts.js': [ 
-      'app/assets/js/app.js',
-      'app/assets/js/services.js' 
+    '.tmp/concat/assets/js/optimized.js': [ 
+      'app/assets/js/foo.js',
+      'app/assets/js/bar.js' 
     ] 
   },
 
   uglify:
   { 
-    'dist/assets/js/scripts.js': [ '.tmp/concat/assets/js/scripts.js' ] 
+    'dist/assets/js/optimized.js': [ '.tmp/concat/assets/js/optimized.js' ] 
   }
 }
 ```
@@ -527,7 +527,7 @@ By using the following `useminPrepare` config:
   useminPrepare: {
     html: 'html/index.html',
     options: {
-      root: 'app'
+      root: 'app',
       dest: 'dist'
     }
   }
@@ -540,15 +540,15 @@ This will, on the fly, generate the following configuration:
 {
   concat:
   {
-    '.tmp/concat/assets/js/scripts.js': [ 
-      'app/assets/js/app.js',
-      'app/assets/js/services.js' 
+    '.tmp/concat/assets/js/optimized.js': [ 
+      'app/assets/js/foo.js',
+      'app/assets/js/bar.js' 
     ] 
   },
 
   uglify:
   { 
-    'dist/assets/js/scripts.js': [ '.tmp/concat/assets/js/scripts.js' ] 
+    'dist/assets/js/optimized.js': [ '.tmp/concat/assets/js/optimized.js' ] 
   }
 }
 ```
